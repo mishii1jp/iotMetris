@@ -17,8 +17,17 @@ connection.on("receive", function (msg) {
     var parseMsg = JSON.parse(JSON.stringify(msg));
     console.log('message:' + parseMsg);
     receivedData(parseMsg);
-
+    if (game._board.gameover) {
+        disconnectSocket();
+    }
 });
+/** 切断 */
+function disconnectSocket() {
+    console.log('切断');
+    connection.disconnect();
+}
+
+
 /* 稼働 */
 function receivedData(msg) {
     /* ゲーム開始かどうか */
@@ -35,7 +44,7 @@ function receivedData(msg) {
             controllKey(msg);
         } else {
             /* 以前の操作から100ms経過している場合 */
-            if (Date.parse(new Date()) - previousTime > 100) {
+            if (Date.parse(new Date()) - previousTime > 1000) {
                 controllKey(msg);
                 previousTime = Date.parse(new Date());
             } else {
@@ -62,11 +71,20 @@ function controllKey(msg) {
     var keycode = '',
         accX = '',  //左右方向
         accY = '',  //前後方向
-        accZ = '';  //上下方向
+        accZ = '',  //上下方向
+        roll = '',  //ロール要素
+        pitch = '', //ピッチ要素
+        yaw = '';   //ヨー要素
     /* 送られてきたデータを読み取る */
-    var val = msg.accY;
-    console.log('msg:'+ val);
-    if (val > 0) {
+    accX = msg.accX;
+    accY = msg.accY;
+    accZ = msg.accZ;
+    roll = msg.roll;
+    pitch = msg.pitch;
+    yaw = msg.yaw;
+    /* 値の出力 */
+    console.log(accX + ',' + accY + ',' + accZ + ',' + roll + ',' + pitch + ',' + yaw);
+    if (accY > 0) {
         keycode = '39';
         game._board.cur.moveRight();
     } else {
