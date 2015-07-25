@@ -47,21 +47,23 @@
   </script>
 
 </head>
-<body>
+<body class="hero">
 
-<!-- <section id="hero" style="min-height:600px; height:auto;">
+<section id="hero" style="min-height:600px; height:auto;">
   <div class="welcome">
     <h1><img src="assets/images/logo.svg" width="560" alt=""></h1>
     <p>姿勢を正して、目をつぶって下さい。3秒後にスタート！</p>
-
     <div class="buttons">
-      <a href="" class="btn btn-download">start</a>
+      <a class="btn btn-download">start</a>
     </div>
   </div>
   <div class="game" id="cover-tetris"></div>
-</section> -->
+</section>
 
-<section class="play">
+<section id="play">
+        <div class="key">
+        <img src="assets/images/sousa.png" width="300" alt="" class="sousa">
+        </div>
   <div class="game" id="tetris-play"></div>
 </section>
 
@@ -81,13 +83,17 @@
     theme: 'candy'
   });
 
-    var $play = $('#tetris-play').blockrain({
+  var $play = $('#tetris-play').blockrain({
     autoplay: false,
     autoplayRestart: false,
     speed: 20,
     autoBlockWidth: true,
     autoBlockSize: 44,
     theme: 'candy'
+  });
+
+  $('.btn-download').on('click',function(){
+    console.log("start")
   });
 
 </script>
