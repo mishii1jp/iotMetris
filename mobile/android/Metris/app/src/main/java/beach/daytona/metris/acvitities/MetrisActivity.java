@@ -4,15 +4,28 @@ import android.content.Context;
 import android.content.Intent;
 import android.support.v7.app.ActionBarActivity;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 
+import com.jins_jp.meme.MemeConnectListener;
+import com.jins_jp.meme.MemeLib;
+import com.jins_jp.meme.MemeRealtimeData;
+import com.jins_jp.meme.MemeRealtimeListener;
+
 import beach.daytona.metris.R;
+import beach.daytona.metris.models.MEMEData;
+import beach.daytona.metris.models.OSCMessenger;
 
-public class MetrisActivity extends ActionBarActivity {
+public class MetrisActivity extends ActionBarActivity implements MemeRealtimeListener{
 
-    public static Intent newIntent(Context context) {
+    private MemeLib memeLib;
+    private final static String ADDRESS = "address";
+    private OSCMessenger messenger = new OSCMessenger();
+
+    public static Intent newIntent(Context context, String address) {
         Intent intent = new Intent(context, MetrisActivity.class);
+        intent.putExtra(ADDRESS, address);
         return intent;
     }
 
@@ -20,7 +33,20 @@ public class MetrisActivity extends ActionBarActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_metris);
+        init();
     }
+
+    void init() {
+        String deviceAddress = getIntent().getStringExtra(ADDRESS);
+        memeLib = MemeLib.getInstance();
+        memeLib.connect(deviceAddress, new MemeConnectListener() {
+            @Override
+            public void connectCallback(boolean status) {
+                memeLib.startListen(MetrisActivity.this);
+            }
+        });
+    }
+
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
@@ -42,5 +68,24 @@ public class MetrisActivity extends ActionBarActivity {
         }
 
         return super.onOptionsItemSelected(item);
+    }
+
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+    }
+
+    @Override
+    public void onBackPressed() {
+        super.onBackPressed();
+        Log.d("MemeData", "onBackPressed");
+        memeLib.disconnect();
+    }
+
+    @Override
+    public void realtimeCallback(MemeRealtimeData memeRealtimeData) {
+        MEMEData data = new MEMEData(memeRealtimeData);
+        Log.d("MemeData", "MemeData getAccY: " + data.toJsonString());
+        messenger.send(data);
     }
 }

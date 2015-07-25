@@ -50,8 +50,7 @@ public class MainActivity extends ActionBarActivity {
             public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
                 stopScan();
                 String address = scannedAddresses.get(i);
-                Intent intent = MetrisActivity.newIntent(MainActivity.this);//new Intent(view.getContext(), MemeDataActivity.class);
-                intent.putExtra("device_address", address);
+                Intent intent = MetrisActivity.newIntent(MainActivity.this, address);
                 startActivity(intent);
             }
         });
