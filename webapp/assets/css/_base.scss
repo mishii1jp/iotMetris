@@ -1,6 +1,5 @@
 section {
   text-align: center;
-  padding: 100px 0;
 
   header {
     margin-bottom: 60px;
@@ -8,12 +7,6 @@ section {
     h1 {
       font-weight: normal;
       margin-bottom: 10px;
-      &:after, &:before {
-        content: "**********";
-        color: #898989;
-        padding: 0 10px;
-        font-size: .7em;
-      }
     }
     p {
       color: #898989;

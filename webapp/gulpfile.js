@@ -10,19 +10,14 @@ var getVersion = function () {
     info = require("./package.json");
     return info.version;
 };
-var getCopyright = function () {
-    return fs.readFileSync('Copyright');
-};
+
 
 gulp.task('js', function () {
     // Concatenate and Minify JS
     return gulp.src(['./src/blockrain.jquery.libs.js', './src/blockrain.jquery.src.js', './src/blockrain.jquery.themes.js'])
     .pipe(concat('blockrain.jquery.js'))
-    .pipe(header(getCopyright(), {version: getVersion()}))
-    .pipe(gulp.dest('./dist'))
     .pipe(uglify({preserveComments:'none'}))
     .pipe(concat('blockrain.jquery.min.js'))
-    .pipe(header(getCopyright(), {version: getVersion()}))
     .pipe(gulp.dest('./dist'));
 });
 
@@ -41,7 +36,6 @@ gulp.task('readme', function () {
 gulp.task('dist', function () {
     // Create a ZIP File
     return gulp.src(['./dist/blockrain.jquery.js', './dist/blockrain.jquery.min.js', './dist/blockrain.css'])
-    .pipe(zip('blockrain.zip'))
     .pipe(gulp.dest('./dist'));
 });
 

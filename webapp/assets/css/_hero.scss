@@ -29,16 +29,6 @@
     margin-bottom: 50px;
   }
 
-  &:after {
-    content: "";
-    display: block;
-    width: 100%;
-    height: 8px;
-    background: url(../images/sep.gif) repeat-x center;
-    position: absolute;
-    bottom: -12px;
-    left: 0;
-  }
   .blockrain-score {
     border: 2px solid #fff;
     text-align: center;

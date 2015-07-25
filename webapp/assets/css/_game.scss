@@ -2,9 +2,13 @@
   position: relative;
 }
 #tetris-play {
-  width: 250px;
-  height: 500px;
-  margin: 0px auto;
+  position: relative;
+  @include display-flex;
+  @include flex-props(row wrap, center, center, center);
+  min-height: 500px;
+  height: 90vh;
+  color: #fff;
+  padding: 0;
 }
 
 #versus {
