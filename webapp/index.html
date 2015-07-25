@@ -18,7 +18,7 @@
   <meta property="og:image" content="">
   <meta property="og:url" content="">
   <meta property="fb:app_id" content="">
-  
+
   <!-- Twitter Stuff -->
   <meta property="twitter:card" content="">
   <meta property="twitter:site" content="">
@@ -70,6 +70,8 @@
 <script src="src/blockrain.jquery.libs.js"></script>
 <script src="src/blockrain.jquery.src.js"></script>
 <script src="src/blockrain.jquery.themes.js"></script>
+<script src="https://cdn.socket.io/socket.io-1.3.5.js"></script>
+<script src="src/connection.js"></script>
 
 <script>
   var $cover = $('#cover-tetris').blockrain({
@@ -90,6 +92,50 @@
     theme: 'candy'
   });
 
+<<<<<<< Updated upstream
+=======
+
+  var $demo = $('#tetris-demo').blockrain({
+    speed: 20,
+    theme: 'vim',
+    onStart: function() {
+      ga( 'send', 'event', 'tetris', 'started');
+    },
+    onLine: function() {
+      ga( 'send', 'event', 'tetris', 'line');
+    },
+    onGameOver: function(score){
+      ga( 'send', 'event', 'tetris', 'over', score);
+    }
+  });
+
+  $('#example-slider').find('.btn-next').click(function(event){
+    event.preventDefault();
+    switchDemoTheme(true);
+  });
+  $('#example-slider').find('.btn-prev').click(function(event){
+    event.preventDefault();
+    switchDemoTheme(false);
+  });
+
+  function switchDemoTheme(next) {
+
+    var themes = Object.keys(BlockrainThemes);
+
+    var currentTheme = $demo.blockrain('theme');
+    var currentIx = themes.indexOf(currentTheme);
+
+    if( next ) { currentIx++; }
+    else { currentIx--; }
+
+    if( currentIx >= themes.length ){ currentIx = 0; }
+    if( currentIx < 0 ){ currentIx = themes.length-1; }
+
+    $demo.blockrain('theme', themes[currentIx]);
+    $('#example-slider .theme strong').text( '"'+themes[currentIx]+'"' );
+  }
+
+>>>>>>> Stashed changes
 </script>
 
 </body>
