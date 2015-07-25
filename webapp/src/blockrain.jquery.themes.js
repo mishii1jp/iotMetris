@@ -62,20 +62,20 @@ window.BlockrainThemes = {
     secondary: '#000000'
   },
   'gameboy': {
-    background: '#C4CFA1',
+    background: '#f1f0df',
     primary: null,
     secondary: null,
-    stroke: '#414141',
-    innerStroke: '#414141',
-    innerSquare: '#000000',
+    stroke: '#f1f0df',
+    innerStroke: '#f1f0df',
+    innerSquare: '#eee',
     blocks: {
-      line:     '#88926A',
-      square:   '#585E44',
-      arrow:    '#A4AC8C',
-      rightHook:'#6B7353',
-      leftHook: '#6B7353',
-      rightZag: '#595F45',
-      leftZag:  '#595F45'
+      line:     '#16a0e8',
+      square:   '#f26c4f',
+      arrow:    '#91bf52',
+      rightHook:'#ccc',
+      leftHook: '#ccc',
+      rightZag: '#999',
+      leftZag:  '#f8b418'
     }
   },
   'vim': {
