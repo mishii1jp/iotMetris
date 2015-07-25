@@ -1,19 +1,26 @@
+/* URL */
+var uri = 'ws://10.10.10.71:3000';
 /** ゲーム開始か否か判定 */
 var initFlg = false;
 /* 以前の操作時間 */
 var previousTime;
 
-//TODO Websocket用URL
-var connection = io.connect('ws://10.10.10.71:3000');//new WebSocket('ws://10.10.10.71:3000');
-connection.on("connected", alert('connection!!!'));
-//connection.onopen = function(event) {
-//    alert('hogehoge_Open!');
-//}
 
-Message受信
-connection.onmessage = function(event) {
-    /* 受信データ */
-    var msg = json.parase(event.data);
+//Websocket用URL
+var connection = io.connect(uri);
+/* 接続時 */
+connection.on("connected", function(msg) {
+    console.log('connected!:' + JSON.stringify(msg));
+});
+/* Message受信 */
+connection.on("receive", function (msg) {
+    var parseMsg = JSON.parse(JSON.stringify(msg));
+    console.log('message:' + parseMsg);
+    receivedData(parseMsg);
+
+});
+/* 稼働 */
+function receivedData(msg) {
     /* ゲーム開始かどうか */
     if (!initFlg) {
         /* ゲーム開始 */
@@ -37,11 +44,13 @@ connection.onmessage = function(event) {
         }
     }
 }
+
 /** keydownイベント発火 */
 function memeToKeydown(keycode) {
     var evt = $.Event('keydown');
+    console.log(evt);
     evt.keyCode = keycode;
-    $('document').trigger(evt);
+
 }
 
 /** ゲームスタート */
@@ -55,20 +64,30 @@ function controllKey(msg) {
         accY = '',  //前後方向
         accZ = '';  //上下方向
     /* 送られてきたデータを読み取る */
-    accX = msg.accX;
-    accY = msg.accY;
-    accZ = msg.accZ;
-    if (accX > 0) {         //右移動（１移動）
+    var val = msg.accY;
+    console.log('msg:'+ val);
+    if (val > 0) {
         keycode = '39';
-    } else if (accX < 0) {  //左移動（１移動）
-        keycode = '37';
-    } else if (accY > 0) {  //下移動（１移動）
-        keycode = '40';
-    } else if (accY < 0) {  //回転（右回り？）
-        keycode = '38';
+        game._board.cur.moveRight();
     } else {
-        keycode = '';
+        keycode = '37';
+        game._board.cur.moveLeft();
     }
+    //TODO 修正！！！
+//    accX = msg.accX;
+//    accY = msg.accY;
+//    accZ = msg.accZ;
+//    if (accX > 0) {         //右移動（１移動）
+//        keycode = '39';
+//    } else if (accX < 0) {  //左移動（１移動）
+//        keycode = '37';
+//    } else if (accY > 0) {  //下移動（１移動）
+//        keycode = '40';
+//    } else if (accY < 0) {  //回転（右回り？）
+//        keycode = '38';
+//    } else {
+//        keycode = '';
+//    }
     //keydownイベント発火
-    memeToKeydown(keycode);
+//    memeToKeydown(keycode);
 }
