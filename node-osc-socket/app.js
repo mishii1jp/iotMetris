@@ -64,12 +64,43 @@ setio = function(server){
     io = require('socket.io').listen(server);
     io.on('connection', function(socket){
         console.log('a user connected');
+        io.sockets.emit('connected', getLocalAddress());
+        socket.on('mouseMove', function(e){
+            io.sockets.emit('mouseMove', e);
+        });
     });
 }
 
 getio = function(){
     return io;
 }
+
+/**
+ * ip address
+ */
+
+var os = require('os');
+function getLocalAddress() {
+    var ifacesObj = {}
+    ifacesObj.ipv4 = [];
+    ifacesObj.ipv6 = [];
+    var interfaces = os.networkInterfaces();
+    for (var dev in interfaces) {
+        interfaces[dev].forEach(function(details){
+            if (!details.internal){
+                switch(details.family){
+                    case "IPv4":
+                        ifacesObj.ipv4.push({name:dev, address:details.address});
+                    break;
+                    case "IPv6":
+                        ifacesObj.ipv6.push({name:dev, address:details.address})
+                    break;
+                }
+            }
+        });
+    }
+    return ifacesObj;
+};
 
 module.exports = setio;
 module.exports = getio;

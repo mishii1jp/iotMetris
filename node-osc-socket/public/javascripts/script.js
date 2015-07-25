@@ -42,13 +42,23 @@ $(function(){
 		});
 	});
 
+	var webSocket = null;
 	var sio = io.connect('http://'+host+':3000');
-	sio.on("connected", function(name) {
+	sio.on("connected", function(ip) {
 		console.log("connected");
+		$(window).mousemove(function(e){
+			sio.emit("mouseMove", { x:e.clientX, y:e.clientY } );
+		});
 	});
 	sio.on("receive", function (message) {
 		mes = JSON.stringify(message);
 		$('.server .message .value').html(mes);
 	});
+	sio.on("mouseMove", function (message) {
+		mes = JSON.stringify(message);
+		$('.server .message .value').html(mes);
+	});
+
+
 
 }) ;
