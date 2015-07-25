@@ -21,7 +21,8 @@ android {
 
 dependencies {
     compile fileTree(dir: 'libs', include: ['*.jar'])
+    compile files('libs/MemeLib.jar')
     compile 'com.android.support:appcompat-v7:22.2.0'
     compile 'com.illposed.osc:javaosc-core:0.3'
-    compile files('libs/MemeLib.jar')
+    provided 'org.projectlombok:lombok:1.16.4'
 }
