@@ -1,0 +1,37 @@
+extends layout
+
+block content
+    h1 node-osc-socket
+    section.role
+        p Choose your role.
+        .host
+            span host
+            input(tyep="text",value="10.10.10.71",disabled="disabled")
+        .port
+            span port
+            input(tyep="text",value="4410")
+        .client
+            input(type="radio",name="radio",value="client") 
+            span client
+        .server
+            input(type="radio",name="radio",value="server")
+            span server
+    section.client
+        .address
+            span address
+            input(tyep="text",value="/osc/message")
+        .value 
+            span value 
+            input(tyep="value",value="1")
+        .submit 
+            input(type="button",value="send")
+    section.server
+        .port 
+            span port 
+            input(tyep="text",value="4410")
+        .message
+            span message
+            .value
+    script(type="text/javascript", src="/socket.io/socket.io.js")
+    script(type="text/javascript", src="javascripts/jquery.js")
+    script(type="text/javascript", src="javascripts/script.js")

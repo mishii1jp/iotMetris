@@ -1,0 +1,42 @@
+body {
+  padding: 40px;
+  word-wrap: break-word;
+  font: 16px "Lucida Grande", Helvetica, Arial, sans-serif;
+}
+
+a {
+  color: #00B7FF;
+}
+
+input{
+    padding: 0.5em;
+}
+section.role{
+    margin-bottom: 20px;
+    padding: 20px;
+    background-color: #ccc;
+}
+section div{
+    margin-bottom: 5px;
+}
+section span{
+    margin-right: 10px;
+}
+section.role p{
+    font-weight: bolder;
+    margin-bottom: 20px;
+}
+section.server, section.client{
+    display: none;
+    padding: 20px;
+}
+section.client{
+    background-color: #ffcccc;
+}
+section.server {
+    background-color: #ccffcc;
+}
+body.server section.server,
+body.client section.client{
+    display: block;
+}
