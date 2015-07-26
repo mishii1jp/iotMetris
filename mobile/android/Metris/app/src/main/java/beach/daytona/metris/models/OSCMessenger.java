@@ -49,7 +49,7 @@ public class OSCMessenger {
                 OSCMessage message = new OSCMessage(address, objects);
                 try {
                     oscPortOut.send(message);
-                    Log.d("MemeData", "data send to node");
+//                    Log.d("MemeData", "data send to node");
                 } catch (IOException e) {
                     Log.d("MemeData", "IOException: " + e.getMessage());
                     e.printStackTrace();
