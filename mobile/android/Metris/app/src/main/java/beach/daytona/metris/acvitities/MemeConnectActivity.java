@@ -21,6 +21,8 @@ import java.util.ArrayList;
 import java.util.List;
 
 import beach.daytona.metris.R;
+import beach.daytona.metris.models.MEMEListItem;
+import beach.daytona.metris.views.MemeListAdapter;
 
 /**
  * Created by sakemotoshinya on 15/07/26.
@@ -29,8 +31,8 @@ public class MemeConnectActivity extends ActionBarActivity {
 
     private MemeLib memeLib;
     private ListView deviceListView;
-    private List<String> scannedAddresses = new ArrayList<>();
-    private ArrayAdapter<String> scannedAddressAdapter;
+    private List<MEMEListItem> memeListItemList = new ArrayList<MEMEListItem>();
+    private ArrayAdapter<MEMEListItem> memeListItemArrayAdapter;
     private TextView emptyView;
 
     public static Intent newIntent(Context context) {
@@ -68,17 +70,20 @@ public class MemeConnectActivity extends ActionBarActivity {
 
         deviceListView = (ListView)findViewById(R.id.deviceListView);
         emptyView = (TextView)findViewById(R.id.text_empty);
-        scannedAddressAdapter = new ArrayAdapter<>(this, android.R.layout.simple_list_item_1, scannedAddresses);
-        deviceListView.setAdapter(scannedAddressAdapter);
+        memeListItemArrayAdapter = new MemeListAdapter(this, R.layout.list_item, memeListItemList);
+        deviceListView.setAdapter(memeListItemArrayAdapter);
     }
 
     private void setupListener() {
         deviceListView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
-            public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
+            public void onItemClick(AdapterView<?> adapterView, View view, int position, long id) {
                 stopScan();
-                String address = scannedAddresses.get(i);
-                Intent intent = MetrisActivity.newIntent(MemeConnectActivity.this, address);
+                ListView listView = (ListView)adapterView;
+                MEMEListItem item = (MEMEListItem)listView.getItemAtPosition(position);
+                Toast.makeText(getApplicationContext(), item + " clicked",
+                        Toast.LENGTH_LONG).show();
+                Intent intent = MetrisActivity.newIntent(MemeConnectActivity.this, item.getAddress());
                 startActivity(intent);
             }
         });
@@ -94,8 +99,8 @@ public class MemeConnectActivity extends ActionBarActivity {
     private void research() {
         emptyView.setEnabled(false);
         emptyView.setVisibility(View.VISIBLE);
-        scannedAddressAdapter.clear();
-        scannedAddressAdapter.notifyDataSetChanged();
+        memeListItemArrayAdapter.clear();
+        memeListItemArrayAdapter.notifyDataSetChanged();
         startScan();
     }
 
@@ -115,14 +120,13 @@ public class MemeConnectActivity extends ActionBarActivity {
             public void scanCallback(String address) {
                 emptyView.setEnabled(false);
                 emptyView.setVisibility(View.INVISIBLE);
-                scannedAddresses.add(address);
-
+                memeListItemList.add(new MEMEListItem(address));
                 /**
                  * 見つかったらリストを更新する。
                  * */
                 runOnUiThread(new Runnable() {
                     public void run() {
-                        scannedAddressAdapter.notifyDataSetChanged();
+                        memeListItemArrayAdapter.notifyDataSetChanged();
                     }
                 });
             }
