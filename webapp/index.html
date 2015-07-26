@@ -1,25 +1,20 @@
 <!DOCTYPE html>
 <html>
-
 <head>
     <meta charset="utf-8" />
     <title>Metris - Tetris game by JINS MEME-</title>
     <meta name="description" content="Metris - Tetris game by JINS MEME-">
-    <meta name="keywords" content="JINS MEME,js, jquery, game, plugin, html5, tetris">
-    <meta name="robots" content="INDEX, FOLLOW">
     <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no, minimal-ui">
-    <link rel="shortcut icon" href="assets/images/favicon.png">
     <link href='http://fonts.googleapis.com/css?family=Play:400,700' rel='stylesheet' type='text/css'>
-    <link rel="stylesheet" href="assets/css/style.css">
     <link rel="stylesheet" href="src/blockrain.css">
+    <link rel="stylesheet" href="assets/css/style2.css">
 </head>
 <body class="hero">
     <section id="hero">
         <div class="welcome">
             <h1>
-                <img src="assets/images/logo.svg" width="560" alt="">
+                <img src="assets/images/metris-logo02.png">
             </h1>
-            <p>姿勢を正して、目をつぶって下さい。3秒後にスタート！</p>
             <div class="buttons">
                 <a class="btn btn-download">start</a>
             </div>
@@ -28,7 +23,7 @@
     </section>
     <section id="play">
         <div class="key">
-            <img src="assets/images/sousa.png" width="300" alt="" class="sousa">
+            <img src="assets/images/sousa2.png" class="sousa">
         </div>
         <div class="game" id="tetris-play"></div>
     </section>
@@ -47,23 +42,17 @@
                 speed: 20,
                 autoBlockWidth: true,
                 autoBlockSize: 44,
-                theme: 'candy'
+                theme: 'gameboy'
             });
-
             var $play = $('#tetris-play').blockrain({
                 autoplay: false,
                 autoplayRestart: false,
                 speed: 20,
                 autoBlockWidth: true,
                 autoBlockSize: 44,
-                theme: 'candy'
-            });
-            $('.btn-download').on('click', function() {
-                console.log("start")
+                theme: 'gameboy'
             });
         })
     </script>
-
 </body>
-
 </html>
