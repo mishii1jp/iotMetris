@@ -5,10 +5,14 @@ package beach.daytona.metris.Utils;
  */
 public class Const {
 
-    final static public String appClientId = "937503816411348";
-    final static public String appClientSecret = "1uakpztxd4cz1mhm9txdbub4180a2hjj";
-    final static public String myIP = "10.10.10.141";
-    final static public int myPort = 54321;
+    final static public String APP_CLIENT_ID = "";
+    final static public String APP_CLIENT_SECRET = "";
+    final static public String MYIP = "";
+    final static public int MYPORT = 0;
+    final static public String SENDER_ID = "";
+    final static public String NCMB_APPLICATION_KEY = "";
+    final static public String NCMB_CLIENT_KEY = "";
+
 
 
 }
