@@ -4,7 +4,13 @@ var uri = 'ws://10.10.10.71:3000';
 var initFlg = false;
 /* 以前の操作時間 */
 var previousTime;
+/* bgm */
+var bgm = new Audio();
 
+//初期のBGM再生
+bgm.loop = true;
+bgm.src = "./audio/sht_a05.mp3";
+bgm.play();
 
 //Websocket用URL
 var connection = io.connect(uri);
@@ -34,6 +40,9 @@ function receivedData(msg) {
     if (!initFlg) {
         /* ゲーム開始 */
         initFlg = true;
+        bgm.pause();
+        bgm.src="./audio/go.mp3";
+        bgm.play();
         /* ３秒後にスタート */
         setInterval(startGame(), 3000);
     } else {
@@ -64,6 +73,9 @@ function memeToKeydown(keycode) {
 
 /** ゲームスタート */
 function startGame() {
+    bgm.pause();
+    bgm.src = "./audio/sht_a02.mp3";
+    bgm.play();
     $('#tetris-play').blockrain('start');
 }
 
