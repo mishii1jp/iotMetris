@@ -1,17 +1,19 @@
 /* URL */
-var uri = 'ws://10.10.10.71:3000';
+var uri = 'ws://10.10.10.141:3000';
 /** ゲーム開始か否か判定 */
 var initFlg = false;
 /* 以前の操作時間 */
 var previousTime;
 /* bgm */
-var bgm = new Audio();
+var startBgm = new Audio();
+var readyBgm = new Audio();
+var gameBgm = new Audio();
+var gameOverBgm = new Audio();
 
 //初期のBGM再生
-bgm.loop = true;
-bgm.src = "./audio/sht_a05.mp3";
-bgm.play();
-
+startBgm.loop = true;
+startBgm.src = "./audio/sht_a05.mp3";
+startBgm.play();
 //Websocket用URL
 var connection = io.connect(uri);
 /* 接続時 */
@@ -25,6 +27,11 @@ connection.on("receive", function (msg) {
     receivedData(parseMsg);
     if (game._board.gameover) {
         disconnectSocket();
+        gameBgm.pause();
+        gameBgm.src='';
+        gameOverBgm.loop = false;
+        gameOverBgm.src = './audio/failed.mp3';
+        gameOverBgm.play();
     }
 });
 /** 切断 */
@@ -40,11 +47,26 @@ function receivedData(msg) {
     if (!initFlg) {
         /* ゲーム開始 */
         initFlg = true;
-        bgm.pause();
-        bgm.src="./audio/go.mp3";
-        bgm.play();
+        /* スタートBGMをクリア */
+        startBgm.pause();
+        startBgm.src='';
+        /* Ready ... GO!!!! */
+        readyBgm.src="./audio/go.mp3";
+        readyBgm.play();
+//        readyBgm.addEventListener('ended', function() {
+//            startGame();
+//            console.log('ended');
+//        }, false);
+//        readyBgm.addEventListener('canplaythrough', function() {
+//            readyBgm.play();
+//            console.log('canplaythrough');
+//        }, false);
+//        readyBgm.onended = function(){
+//            startGame();
+//        }
         /* ３秒後にスタート */
-        setInterval(startGame(), 3000);
+        setTimeout("startGame()", 3000);
+
     } else {
         /* ゲーム開始直後 */
         if (previousTime == null) {
@@ -73,10 +95,15 @@ function memeToKeydown(keycode) {
 
 /** ゲームスタート */
 function startGame() {
-    bgm.pause();
-    bgm.src = "./audio/sht_a02.mp3";
-    bgm.play();
-    $('#tetris-play').blockrain('start');
+
+        startBgm.pause();
+        startBgm.src='';
+        gameBgm.src = "./audio/sht_a02.mp3";
+        gameBgm.loop = true;
+        gameBgm.play();
+        setViewPlay();
+        $('#tetris-play').blockrain('start');
+
 }
 
 function controllKey(msg) {
