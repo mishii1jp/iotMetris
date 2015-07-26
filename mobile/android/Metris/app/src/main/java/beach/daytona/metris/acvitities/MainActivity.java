@@ -7,7 +7,13 @@ import android.util.Log;
 import android.view.View;
 import android.view.Window;
 
+import com.nifty.cloud.mb.NCMBException;
+import com.nifty.cloud.mb.NCMBInstallation;
+import com.nifty.cloud.mb.NCMBPush;
+import com.nifty.cloud.mb.RegistrationCallback;
+
 import beach.daytona.metris.R;
+import beach.daytona.metris.Utils.Const;
 
 public class MainActivity extends ActionBarActivity {
 
@@ -20,6 +26,7 @@ public class MainActivity extends ActionBarActivity {
         if (savedInstanceState == null) {
             setupFullScreen();
         }
+        pushRegister();
 
         findViewById(R.id.button_connect).setOnClickListener(new View.OnClickListener() {
             @Override
@@ -54,5 +61,31 @@ public class MainActivity extends ActionBarActivity {
                             | View.SYSTEM_UI_FLAG_HIDE_NAVIGATION
                             | View.SYSTEM_UI_FLAG_FULLSCREEN
                             | View.SYSTEM_UI_FLAG_IMMERSIVE_STICKY);}
+    }
+
+    private void pushRegister() {
+        final NCMBInstallation instllation = NCMBInstallation.getCurrentInstallation();
+        instllation.getRegistrationIdInBackground(Const.SENDER_ID, new RegistrationCallback() {
+            @Override
+            public void done(NCMBException e) {
+                if (e == null) {
+                    Log.d("MemeData", "push send done");
+                    // 成功
+                    try {
+                        instllation.save();
+                        Log.d("MemeData", "push send success");
+                    } catch (NCMBException le) {
+                        // サーバ側への保存エラー
+                        Log.d("MemeData", "push send server error");
+                    }
+                } else {
+                    // エラー
+                    Log.d("MemeData", "push send some error");
+                }
+            }
+        });
+        NCMBPush.setDefaultPushCallback(this, MainActivity.class);
+        NCMBPush push = new NCMBPush();
+        push.setDialog(true);
     }
 }

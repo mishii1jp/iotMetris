@@ -63,6 +63,9 @@ public class MetrisActivity extends ActionBarActivity implements MemeRealtimeLis
     public void onBackPressed() {
         super.onBackPressed();
         Log.d("MemeData", "onBackPressed");
+        if (memeLib == null) {
+            return;
+        }
         memeLib.disconnect();
     }
 

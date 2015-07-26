@@ -31,7 +31,7 @@ public class MemeConnectActivity extends ActionBarActivity {
 
     private MemeLib memeLib;
     private ListView deviceListView;
-    private List<MEMEListItem> memeListItemList = new ArrayList<MEMEListItem>();
+    private List<MEMEListItem> memeListItemList = new ArrayList<>();
     private ArrayAdapter<MEMEListItem> memeListItemArrayAdapter;
     private TextView emptyView;
 
@@ -110,6 +110,10 @@ public class MemeConnectActivity extends ActionBarActivity {
      * Bluetoot端末を探す
      * */
     private void startScan() {
+        if (memeLib == null) {
+            return;
+        }
+
         if (memeLib.isScanning()) {
             Log.d("MemeData", "now searching");
             return;
@@ -138,6 +142,9 @@ public class MemeConnectActivity extends ActionBarActivity {
     }
 
     private void stopScan() {
+        if (memeLib == null) {
+            return;
+        }
         if (!memeLib.isScanning())
             return;
 

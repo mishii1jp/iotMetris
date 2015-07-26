@@ -30,7 +30,7 @@ public class OSCMessenger {
 
     private void setupPort() {
         try {
-            oscPortOut = new OSCPortOut(InetAddress.getByName(Const.myIP), Const.myPort);
+            oscPortOut = new OSCPortOut(InetAddress.getByName(Const.MYIP), Const.MYPORT);
         } catch(UnknownHostException e) {
             Log.d("MemeData", "UnknownHostException: " + e.getMessage());
             e.printStackTrace();
