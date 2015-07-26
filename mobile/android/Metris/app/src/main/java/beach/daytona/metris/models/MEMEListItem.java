@@ -16,7 +16,7 @@ public class MEMEListItem {
 
 
     public MEMEListItem(String address) {
-        this.imageId = R.mipmap.ic_launcher;
+        this.imageId = R.drawable.icon_glass;
         this.address = address;
     }
 }
