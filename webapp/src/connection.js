@@ -9,6 +9,10 @@ var startBgm = new Audio();
 var readyBgm = new Audio();
 var gameBgm = new Audio();
 var gameOverBgm = new Audio();
+/* 回転判定 */
+var rotateFlg = false;
+/* gameoveFlg */
+var gameOverFlg = false;
 
 //初期のBGM再生
 startBgm.loop = true;
@@ -25,8 +29,8 @@ connection.on("receive", function (msg) {
     var parseMsg = JSON.parse(JSON.stringify(msg));
     console.log('message:' + parseMsg);
     receivedData(parseMsg);
-    if (game._board.gameover) {
-        disconnectSocket();
+    if (game._board.gameover && !gameOverFlg) {
+        gameOverFlg = true;
         gameBgm.pause();
         gameBgm.src='';
         gameOverBgm.loop = false;
@@ -113,7 +117,14 @@ function controllKey(msg) {
         accZ = '',  //上下方向
         roll = '',  //ロール要素
         pitch = '', //ピッチ要素
-        yaw = '';   //ヨー要素
+        yaw = '',   //ヨー要素
+        eyeMoveUp = '',
+        eyeMoveDown = '',
+        eyeMoveLeft = '',
+        eyeMoveRight = '',
+        blinkSpeed = '',
+        blinkStrength = '',
+        walking = '';
     /* 送られてきたデータを読み取る */
     accX = msg.accX;
     accY = msg.accY;
@@ -121,14 +132,37 @@ function controllKey(msg) {
     roll = msg.roll;
     pitch = msg.pitch;
     yaw = msg.yaw;
+    eyeMoveUp = msg.eyeMoveUp;
+    eyeMoveDown = msg.eyeMoveDown;
+    eyeMoveLeft = msg.eyeMoveLeft;
+    eyeMoveRight = msg.eyeMoveRight;
+    blinkSpeed = msg.blinkSpeed;
+    blinkStrength = msg.blinkStrength;
+    walking = msg.walking;
     /* 値の出力 */
-    console.log(accX + ',' + accY + ',' + accZ + ',' + roll + ',' + pitch + ',' + yaw);
-    if (accY > 0) {
+    console.log(accX + ',' + accY + ',' + accZ + ',' + roll + ',' + pitch + ',' + yaw + ',' +
+               eyeMoveUp + ',');
+    if (walking) {  //回転
+        if (rotateFlg) {
+            //回転して初期化
+            game._board.cur.rotate(true);
+            rotateFlg = false;
+        } else {
+            //次の動きで回転
+            rotateFlg = true;
+        }
+    }
+    if (pitch > 300 && roll < 500) {  //左
         keycode = '39';
-        game._board.cur.moveRight();
-    } else {
-        keycode = '37';
         game._board.cur.moveLeft();
+    } else if (pitch <300 && roll > 500) {    //右
+        keycode = '37';
+        game._board.cur.moveRight();
+    } else if (pitch < 10 && roll < 10) { //下
+        game._board.dropCount = game._board.dropDelay;
+    }
+    if (game._board.gameover && eyeMoveUp > 0) {
+        startGame();
     }
     //TODO 修正！！！
 //    accX = msg.accX;
