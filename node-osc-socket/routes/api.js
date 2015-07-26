@@ -22,6 +22,9 @@ router.post('/set/client', function(req, res, next) {
     }
     if(!oscclient){
         oscclient = new osc.Client(host,port);
+        oscclient.on("message", function (msg, rinfo) {
+            console.log(msg);
+        });
         res.send(JSON.stringify('oscserver will send at :' + port));
     } else {
         res.send(JSON.stringify('oscclient is already exist.'));
@@ -38,9 +41,19 @@ router.post('/set/server', function(req, res, next) {
     }
     if(!oscserver){
         oscserver = new osc.Server(port, '0.0.0.0');
+        console.log(port);
         oscserver.on("message", function (msg, rinfo) {
-            var io = getio(); // app.js exports functin
-            io.sockets.emit('receive', { address:msg[0], value:msg[1] });
+            var io = getio(); // app.js exports functi
+            var data = JSON.parse(msg[1]);
+            io.sockets.emit('receive', {
+                address:msg[0],
+                accX:data.accX,
+                accY:data.accY,
+                accZ:data.accZ,
+                roll:data.roll,
+                pitch:data.pitch,
+                yaw:data.yaw
+            });
         });
         res.send(JSON.stringify('oscserver is listen at :' + port));
     } else {
