@@ -2,6 +2,7 @@ package beach.daytona.metris.models;
 
 import android.widget.ImageView;
 
+import beach.daytona.metris.R;
 import lombok.Data;
 
 /**
@@ -15,7 +16,7 @@ public class MEMEListItem {
 
 
     public MEMEListItem(String address) {
-        this.imageId = 0;
+        this.imageId = R.mipmap.ic_launcher;
         this.address = address;
     }
 }

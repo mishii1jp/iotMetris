@@ -81,8 +81,8 @@ public class MemeConnectActivity extends ActionBarActivity {
                 stopScan();
                 ListView listView = (ListView)adapterView;
                 MEMEListItem item = (MEMEListItem)listView.getItemAtPosition(position);
-                Toast.makeText(getApplicationContext(), item + " clicked",
-                        Toast.LENGTH_LONG).show();
+//                Toast.makeText(getApplicationContext(), item + " clicked",
+//                        Toast.LENGTH_LONG).show();
                 Intent intent = MetrisActivity.newIntent(MemeConnectActivity.this, item.getAddress());
                 startActivity(intent);
             }
