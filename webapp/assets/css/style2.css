@@ -830,7 +830,7 @@ img.sousa {
     #hero .welcome
     {
         margin-bottom: 0;
-        padding: 0 20px;
+        /*padding: 0 20px;*/
     }#hero .blockrain-score-holder
     {
         display: none !important;
@@ -848,9 +848,9 @@ img.sousa {
     }#hero .btn,
     #footer .btn
     {
-        box-sizing: border-box;
+        /*box-sizing: border-box;
         width: 100%;
-        margin: 0 0 20px;
+        margin: 0 0 20px;*/
     }#hero .game
     {
         opacity: .07;
@@ -860,6 +860,9 @@ img.sousa {
     }section header p
     {
         font-size: 1em;
+    }
+    .btn-download{
+        display: none;
     }
 }
 
