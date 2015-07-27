@@ -68,6 +68,7 @@ function receivedData(msg) {
 //        readyBgm.onended = function(){
 //            startGame();
 //        }
+
         /* ３秒後にスタート */
         setTimeout("startGame()", 3000);
 
@@ -79,7 +80,7 @@ function receivedData(msg) {
             controllKey(msg);
         } else {
             /* 以前の操作から100ms経過している場合 */
-            if (Date.parse(new Date()) - previousTime > 1000) {
+            if (Date.parse(new Date()) - previousTime > 500) {
                 controllKey(msg);
                 previousTime = Date.parse(new Date());
             } else {
@@ -88,6 +89,7 @@ function receivedData(msg) {
         }
     }
 }
+
 
 /** keydownイベント発火 */
 function memeToKeydown(keycode) {
@@ -99,7 +101,6 @@ function memeToKeydown(keycode) {
 
 /** ゲームスタート */
 function startGame() {
-
         startBgm.pause();
         startBgm.src='';
         gameBgm.src = "./audio/sht_a02.mp3";
@@ -152,17 +153,23 @@ function controllKey(msg) {
             rotateFlg = true;
         }
     }
-    if (pitch > 300 && roll < 500) {  //左
+    if (pitch > 600 && roll < 100) {  //左
         keycode = '39';
         game._board.cur.moveLeft();
-    } else if (pitch <300 && roll > 500) {    //右
+        return;
+    } else if ((pitch <100 && roll > 600) || (accY <30 && accY > 0)) {    //右
         keycode = '37';
         game._board.cur.moveRight();
+        return;
     } else if (pitch < 10 && roll < 10) { //下
         game._board.dropCount = game._board.dropDelay;
+        return;
     }
     if (game._board.gameover && eyeMoveUp > 0) {
         startGame();
+        readyBgm.src="./audio/go.mp3";
+        readyBgm.play();
+        gameOverFlg = false;
     }
     //TODO 修正！！！
 //    accX = msg.accX;
